@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Data from "./data";
+import "./App.css";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
+import { ShoeDetail, Jumbotron, ShoeContainer, Navi } from "./Components";
 
 function App() {
+  let [shoes, shoesChange] = useState(Data);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navi />
+      <Switch>
+        <Route exact path="/">
+          <Jumbotron />
+          <ShoeContainer shoes={shoes} />
+        </Route>
+        <Route exact path="/detail/:id">
+          <ShoeDetail shoes={shoes} />
+        </Route>
+      </Switch>
     </div>
   );
 }
