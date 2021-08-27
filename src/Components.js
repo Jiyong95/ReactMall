@@ -19,11 +19,11 @@ export function Navi() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link>
-              <Link to="/">Home</Link>
+            <Nav.Link as={Link} to="/">
+              Home
             </Nav.Link>
-            <Nav.Link>
-              <Link to="/detail">Detail</Link>
+            <Nav.Link as={Link} to="/detail">
+              detail
             </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -87,7 +87,7 @@ export function ShoeList(props) {
   );
 }
 
-let box = styled.div`
+let Box = styled.div`
   padding: 20px;
 `;
 let 제목 = styled.h4`
@@ -101,9 +101,12 @@ export function ShoeDetail(props) {
   let findShoe = props.shoes.find((x) => x.id == id);
   return (
     <div className="container">
-      <box>
-        <제목 색상={"blue"}>상세페이지</제목>
-      </box>
+      <Box>
+        <제목 className="red">상세페이지</제목>
+      </Box>
+      <div className="my-alert">
+        <p>재고가 1개 남았습니다!</p>
+      </div>
       <div className="row">
         <div className="col-md-6">
           <img
