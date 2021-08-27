@@ -7,7 +7,7 @@ import {
   Nav,
   NavDropdown,
 } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Switch, useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -15,14 +15,16 @@ export function Navi() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Shoeshop</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          Shoeshop
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/detail">
+            <Nav.Link as={Link} to="/detail/0">
               detail
             </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
@@ -96,6 +98,17 @@ let 제목 = styled.h4`
 `;
 
 export function ShoeDetail(props) {
+  console.log(props);
+  let [alert, setAlert] = useState(true);
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setAlert(false);
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [alert]);
+
   let { id } = useParams();
   let history = useHistory();
   let findShoe = props.shoes.find((x) => x.id == id);
@@ -104,9 +117,11 @@ export function ShoeDetail(props) {
       <Box>
         <제목 className="red">상세페이지</제목>
       </Box>
-      <div className="my-alert">
-        <p>재고가 1개 남았습니다!</p>
-      </div>
+      {alert ? (
+        <div className="my-alert">
+          <p>재고가 1개 남았습니다!</p>
+        </div>
+      ) : null}
       <div className="row">
         <div className="col-md-6">
           <img
@@ -121,7 +136,16 @@ export function ShoeDetail(props) {
           <h4 className="pt-5">{props.shoes[id].title}</h4>
           <p>{props.shoes[id].content}</p>
           <p>{props.shoes[id].price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <Inven inventory={props.inventory} />
+
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              props.setInventory([9, 11, 12]);
+            }}
+          >
+            주문하기
+          </button>
           <button
             className="btn btn-danger"
             onClick={() => {
@@ -135,4 +159,8 @@ export function ShoeDetail(props) {
       </div>
     </div>
   );
+}
+
+function Inven(props) {
+  return <p>재고:{props.inventory[0]}</p>;
 }
