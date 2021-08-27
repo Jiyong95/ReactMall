@@ -10,6 +10,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link, Route, Switch, useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { CSSTransition } from "react-transition-group";
+import "./Components.scss";
 
 export function Navi() {
   return (
@@ -98,7 +100,8 @@ let 제목 = styled.h4`
 `;
 
 export function ShoeDetail(props) {
-  console.log(props);
+  let [aniSwitch, setAniSwitch] = useState(false);
+  let [tab, setTab] = useState(0);
   let [alert, setAlert] = useState(true);
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -157,8 +160,45 @@ export function ShoeDetail(props) {
           </button>
         </div>
       </div>
+
+      <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-0"
+            onClick={() => {
+              setAniSwitch(false);
+              setTab(0);
+            }}
+          >
+            Active
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-1"
+            onClick={() => {
+              setAniSwitch(false);
+              setTab(1);
+            }}
+          >
+            Option 2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <CSSTransition in={aniSwitch} classNames="wow" timeout={600}>
+        <TabContent tab={tab} setAniSwitch={setAniSwitch} />
+      </CSSTransition>
     </div>
   );
+}
+
+function TabContent(props) {
+  useEffect(() => {
+    props.setAniSwitch(true);
+  });
+  if (props.tab === 0) {
+    return <div>0번째 내용입니다.</div>;
+  } else return <div>1번째 내용입니다.</div>;
 }
 
 function Inven(props) {

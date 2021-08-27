@@ -1,0 +1,9 @@
+.wow-enter {
+  opacity: 0;
+}
+
+.wow-enter-active {
+  opacity: 0;
+  background-color: blue;
+  transition: all 100ms;
+}
