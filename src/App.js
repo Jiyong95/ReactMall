@@ -4,6 +4,7 @@ import "./App.css";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import { ShoeDetail, Jumbotron, ShoeContainer, Navi } from "./Components";
 import axios from "axios";
+import Cart from "./Cart";
 
 function App() {
   let [shoes, shoesChange] = useState(Data);
@@ -41,6 +42,10 @@ function App() {
             inventory={inventory}
             setInventory={setInventory}
           />
+        </Route>
+
+        <Route path="/cart">
+          <Cart />
         </Route>
       </Switch>
     </div>
