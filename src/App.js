@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Data from "./data";
 import "./App.css";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
-import { ShoeDetail, Jumbotron, ShoeContainer, Navi } from "./Components";
+import { Jumbotron, ShoeContainer, Navi } from "./Components";
+import ShoeDetail from "./Components";
 import axios from "axios";
 import Cart from "./Cart";
 

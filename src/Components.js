@@ -12,7 +12,7 @@ import { Link, Route, Switch, useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 import "./Components.scss";
-
+import { connect } from "react-redux";
 export function Navi() {
   return (
     <Navbar bg="light" expand="lg">
@@ -99,7 +99,7 @@ let 제목 = styled.h4`
   color: ${(props) => props.색상};
 `;
 
-export function ShoeDetail(props) {
+function ShoeDetail(props) {
   let [aniSwitch, setAniSwitch] = useState(false);
   let [tab, setTab] = useState(0);
   let [alert, setAlert] = useState(true);
@@ -145,6 +145,11 @@ export function ShoeDetail(props) {
             className="btn btn-danger"
             onClick={() => {
               props.setInventory([9, 11, 12]);
+              props.dispatch({
+                type: "항목추가",
+                payload: { id: 2, name: "새상품", quan: 1 },
+              });
+              history.push("/cart");
             }}
           >
             주문하기
@@ -204,3 +209,13 @@ function TabContent(props) {
 function Inven(props) {
   return <p>재고:{props.inventory[0]}</p>;
 }
+
+//redux store 데이터 가져와서 props로 변환해주는 함수
+function func(state) {
+  console.log(state);
+  return {
+    state: state.reducer,
+    alertFlag: state.reducer2,
+  };
+}
+export default connect(func)(ShoeDetail);
