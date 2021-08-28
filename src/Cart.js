@@ -1,7 +1,11 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 function Cart(props) {
+  let state = useSelector((state) => state);
+  console.log("state", state);
+  let dispatch = useDispatch();
+  console.log("dispatch", dispatch);
   return (
     <div>
       <Table responsive>
@@ -14,7 +18,7 @@ function Cart(props) {
           </tr>
         </thead>
         <tbody>
-          {props.state.map((e, i) => {
+          {state.reducer.map((e, i) => {
             return (
               <tr key={i}>
                 <td>{e.id}</td>
@@ -23,14 +27,14 @@ function Cart(props) {
                 <td>
                   <button
                     onClick={() => {
-                      props.dispatch({ type: "plus" });
+                      dispatch({ type: "plus" });
                     }}
                   >
                     +
                   </button>
                   <button
                     onClick={() => {
-                      props.dispatch({ type: "minus" });
+                      dispatch({ type: "minus" });
                     }}
                   >
                     -
@@ -58,12 +62,12 @@ function Cart(props) {
 }
 
 //redux store 데이터 가져와서 props로 변환해주는 함수
-function func(state) {
-  console.log(state);
-  return {
-    state: state.reducer,
-    alertFlag: state.reducer2,
-  };
-}
-export default connect(func)(Cart);
+// function func(state) {
+//   console.log(state);
+//   return {
+//     state: state.reducer,
+//     alertFlag: state.reducer2,
+//   };
+// }
+export default Cart;
 // export default Cart;

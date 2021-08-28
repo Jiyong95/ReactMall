@@ -20,7 +20,7 @@ let base = [
 //state = base : default인자 설정
 function reducer(state = base, action) {
   console.log(action);
-  if (action.type === "addList") {
+  if (action.type === "항목추가") {
     let copy = [...state];
     copy.push(action.payload);
     return copy;
