@@ -147,7 +147,7 @@ function ShoeDetail(props) {
               props.setInventory([9, 11, 12]);
               props.dispatch({
                 type: "항목추가",
-                payload: { id: 2, name: "새상품", quan: 1 },
+                payload: { id, name: props.shoes[id].title, quan: 1 },
               });
               history.push("/cart");
             }}

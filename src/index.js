@@ -22,15 +22,20 @@ function reducer(state = base, action) {
   console.log(action);
   if (action.type === "항목추가") {
     let copy = [...state];
-    copy.push(action.payload);
+    let found = state.findIndex((e) => {
+      return e.id === action.payload.id;
+    });
+    if (found >= 0) {
+      copy[found].quan++;
+    } else copy.push(action.payload);
     return copy;
   } else if (action.type === "plus") {
     let newState = [...base];
-    newState[0].quan++;
+    newState[action.payload].quan++;
     return newState;
   } else if (action.type === "minus") {
     let newState = [...base];
-    newState[0].quan--;
+    newState[action.payload].quan--;
     return newState;
   } else return state;
 }
