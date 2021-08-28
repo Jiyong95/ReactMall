@@ -27,14 +27,14 @@ function Cart(props) {
                 <td>
                   <button
                     onClick={() => {
-                      dispatch({ type: "plus", payload: i });
+                      dispatch({ type: "plus", payload: e.id });
                     }}
                   >
                     +
                   </button>
                   <button
                     onClick={() => {
-                      dispatch({ type: "minus", payload: i });
+                      dispatch({ type: "minus", payload: e.id });
                     }}
                   >
                     -

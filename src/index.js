@@ -12,14 +12,11 @@ function reducer2(state = true, action) {
   return true;
 }
 
-let base = [
-  { id: 0, name: "멋진 신발", quan: 2 },
-  { id: 1, name: "멋진 신발2", quan: 1 },
-];
+let base = [];
 //변경된 state를 return하는 함수
 //state = base : default인자 설정
 function reducer(state = base, action) {
-  console.log(action);
+  // console.log(action);
   if (action.type === "항목추가") {
     let copy = [...state];
     let found = state.findIndex((e) => {
@@ -30,11 +27,11 @@ function reducer(state = base, action) {
     } else copy.push(action.payload);
     return copy;
   } else if (action.type === "plus") {
-    let newState = [...base];
+    let newState = [...state];
     newState[action.payload].quan++;
     return newState;
   } else if (action.type === "minus") {
-    let newState = [...base];
+    let newState = [...state];
     newState[action.payload].quan--;
     return newState;
   } else return state;
