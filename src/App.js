@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Data from "./data";
 import "./App.css";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import { Jumbotron, ShoeContainer, Navi } from "./Components";
-import ShoeDetail from "./Components";
 import axios from "axios";
 import Cart from "./Cart";
+let ShoeDetail = lazy(() => import("./Components.js"));
 
 function App() {
   let [shoes, shoesChange] = useState(Data);
@@ -38,11 +38,13 @@ function App() {
           ) : null}
         </Route>
         <Route exact path="/detail/:id">
-          <ShoeDetail
-            shoes={shoes}
-            inventory={inventory}
-            setInventory={setInventory}
-          />
+          <Suspense fallback={<div>로딩중...</div>}>
+            <ShoeDetail
+              shoes={shoes}
+              inventory={inventory}
+              setInventory={setInventory}
+            />
+          </Suspense>
         </Route>
 
         <Route path="/cart">

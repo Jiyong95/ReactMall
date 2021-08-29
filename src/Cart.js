@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, memo } from "react";
 import { Table } from "react-bootstrap";
 import { connect, useDispatch, useSelector } from "react-redux";
+
 function Cart(props) {
   let state = useSelector((state) => state);
   console.log("state", state);
@@ -57,9 +58,30 @@ function Cart(props) {
           </button>
         </div>
       ) : null}
+      <Parent name="존박" age="20"></Parent>
     </div>
   );
 }
+
+function Parent(props) {
+  return (
+    <div>
+      <Child1 name={props.name}></Child1>
+      <Child2 name={props.age}></Child2>
+    </div>
+  );
+}
+
+function Child1(props) {
+  console.log(props);
+  //이 방법도 되는데?
+  useEffect(() => console.log("Child1"), [props.name]);
+  return <div>1111</div>;
+}
+let Child2 = memo(function () {
+  useEffect(() => console.log("Child2"));
+  return <div>2222</div>;
+});
 
 //redux store 데이터 가져와서 props로 변환해주는 함수
 // function func(state) {
