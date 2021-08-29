@@ -103,6 +103,10 @@ function ShoeDetail(props) {
   let [aniSwitch, setAniSwitch] = useState(false);
   let [tab, setTab] = useState(0);
   let [alert, setAlert] = useState(true);
+
+  let { id } = useParams();
+  let history = useHistory();
+  let findShoe = props.shoes.find((x) => x.id == id);
   useEffect(() => {
     let timer = setTimeout(() => {
       setAlert(false);
@@ -112,90 +116,103 @@ function ShoeDetail(props) {
     };
   }, [alert]);
 
-  let { id } = useParams();
-  let history = useHistory();
-  let findShoe = props.shoes.find((x) => x.id == id);
+  useEffect(() => {
+    let arr = localStorage.getItem("watched");
+    if (arr === null) {
+      arr = [];
+    } else {
+      arr = JSON.parse(arr);
+    }
+    arr.push(id);
+    arr = new Set(arr);
+    arr = [...arr];
+    localStorage.setItem("watched", JSON.stringify(arr));
+  }, []);
+
   return (
-    <div className="container">
-      <Box>
-        <제목 className="red">상세페이지</제목>
-      </Box>
-      {alert ? (
-        <div className="my-alert">
-          <p>지금사면 50%할인!</p>
-        </div>
-      ) : null}
-      <div className="row">
-        <div className="col-md-6">
-          <img
-            src={
-              "https://codingapple1.github.io/shop/shoes" + (+id + 1) + ".jpg"
-            }
-            alt="shoeDetail"
-            width="100%"
-          />
-        </div>
-        <div className="col-md-6 mt-4">
-          <h4 className="pt-5">{props.shoes[id].title}</h4>
-          <p>{props.shoes[id].content}</p>
-          <p>{props.shoes[id].price}원</p>
-          <Inven inventory={props.inventory} />
+    <>
+      <div className="container">
+        <Box>
+          <제목 className="red">상세페이지</제목>
+        </Box>
+        {alert ? (
+          <div className="my-alert">
+            <p>지금사면 50%할인!</p>
+          </div>
+        ) : null}
+        <div className="row">
+          <div className="col-md-6">
+            <img
+              src={
+                "https://codingapple1.github.io/shop/shoes" + (+id + 1) + ".jpg"
+              }
+              alt="shoeDetail"
+              width="100%"
+            />
+          </div>
+          <div className="col-md-6 mt-4">
+            <h4 className="pt-5">{props.shoes[id].title}</h4>
+            <p>{props.shoes[id].content}</p>
+            <p>{props.shoes[id].price}원</p>
+            <Inven inventory={props.inventory} />
 
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              let newInventory = [...props.inventory];
-              newInventory[id]--;
-              props.setInventory(newInventory);
-              props.dispatch({
-                type: "항목추가",
-                payload: { id, name: props.shoes[id].title, quan: 1 },
-              });
-              history.push("/cart");
-            }}
-          >
-            주문하기
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              history.goBack();
-              //   history.push('/');  /로 이동
-            }}
-          >
-            뒤로가기
-          </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                let newInventory = [...props.inventory];
+                newInventory[id]--;
+                props.setInventory(newInventory);
+                props.dispatch({
+                  type: "항목추가",
+                  payload: { id, name: props.shoes[id].title, quan: 1 },
+                });
+                history.push("/cart");
+              }}
+            >
+              주문하기
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                history.goBack();
+                //   history.push('/');  /로 이동
+              }}
+            >
+              뒤로가기
+            </button>
+          </div>
         </div>
+
+        <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+          <Nav.Item>
+            <Nav.Link
+              eventKey="link-0"
+              onClick={() => {
+                setAniSwitch(false);
+                setTab(0);
+              }}
+            >
+              제품 설명
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              eventKey="link-1"
+              onClick={() => {
+                setAniSwitch(false);
+                setTab(1);
+              }}
+            >
+              판매자
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <CSSTransition in={aniSwitch} classNames="wow" timeout={600}>
+          <TabContent tab={tab} setAniSwitch={setAniSwitch} />
+        </CSSTransition>
       </div>
-
-      <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
-        <Nav.Item>
-          <Nav.Link
-            eventKey="link-0"
-            onClick={() => {
-              setAniSwitch(false);
-              setTab(0);
-            }}
-          >
-            제품 설명
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link
-            eventKey="link-1"
-            onClick={() => {
-              setAniSwitch(false);
-              setTab(1);
-            }}
-          >
-            판매자
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-      <CSSTransition in={aniSwitch} classNames="wow" timeout={600}>
-        <TabContent tab={tab} setAniSwitch={setAniSwitch} />
-      </CSSTransition>
-    </div>
+      <Popup />
+    </>
   );
 }
 
@@ -208,6 +225,25 @@ function TabContent(props) {
   } else return <div>1번째 내용입니다.</div>;
 }
 
+function Popup(props) {
+  let watched = JSON.parse(localStorage.getItem("watched"));
+
+  return (
+    <div className="popUp">
+      <h3>최근 본 상품</h3>
+      {watched.map((e, i) => {
+        return (
+          <img
+            key={i}
+            src={
+              "https://codingapple1.github.io/shop/shoes" + (+e + 1) + ".jpg"
+            }
+          />
+        );
+      })}
+    </div>
+  );
+}
 function Inven(props) {
   return <p>재고:{props.inventory[0]}</p>;
 }

@@ -11,3 +11,13 @@
 .my-alert {
   background-color: burlywood;
 }
+
+.popUp {
+  max-width: 300px;
+  background-color: cadetblue;
+  color: bisque;
+  display: flex;
+  img {
+    max-width: 300px;
+  }
+}
