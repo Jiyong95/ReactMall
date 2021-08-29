@@ -58,11 +58,11 @@ function Cart(props) {
           </button>
         </div>
       ) : null}
-      <Parent name="존박" age="20"></Parent>
+      {/* <Parent name="존박" age="20"></Parent> */}
     </div>
   );
 }
-
+/*
 function Parent(props) {
   return (
     <div>
@@ -82,7 +82,7 @@ let Child2 = memo(function () {
   useEffect(() => console.log("Child2"));
   return <div>2222</div>;
 });
-
+*/
 //redux store 데이터 가져와서 props로 변환해주는 함수
 // function func(state) {
 //   console.log(state);

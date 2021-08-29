@@ -122,7 +122,7 @@ function ShoeDetail(props) {
       </Box>
       {alert ? (
         <div className="my-alert">
-          <p>재고가 1개 남았습니다!</p>
+          <p>지금사면 50%할인!</p>
         </div>
       ) : null}
       <div className="row">
@@ -144,7 +144,9 @@ function ShoeDetail(props) {
           <button
             className="btn btn-danger"
             onClick={() => {
-              props.setInventory([9, 11, 12]);
+              let newInventory = [...props.inventory];
+              newInventory[id]--;
+              props.setInventory(newInventory);
               props.dispatch({
                 type: "항목추가",
                 payload: { id, name: props.shoes[id].title, quan: 1 },
@@ -175,7 +177,7 @@ function ShoeDetail(props) {
               setTab(0);
             }}
           >
-            Active
+            제품 설명
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -186,7 +188,7 @@ function ShoeDetail(props) {
               setTab(1);
             }}
           >
-            Option 2
+            판매자
           </Nav.Link>
         </Nav.Item>
       </Nav>
